@@ -1,0 +1,674 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>Prospective Architecture for SACM</title>
+
+  <style type="text/css">/*<![CDATA[*/
+@viewport {
+  zoom: 1.0;
+  width: extend-to-zoom;
+}
+@-ms-viewport {
+  width: extend-to-zoom;
+  zoom: 1.0;
+}
+
+@media screen and (min-width: 1024px) {
+  ul.toc, #rfc\.toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 500px);
+    width: 300px;
+    padding: 0 1em;
+    z-index: 1;
+  }
+  #rfc\.toc {
+    top: 16px;
+  }
+  ul.toc {
+    top: 80px;
+    overflow: auto;
+  }
+
+  body {
+    padding-left: 1.5em;
+    padding-right: 29em;
+  }
+}
+
+body {
+  font: 15px "Helvetica Neue",Helvetica,Arial,sans-serif;
+  color: #333;
+  font-size-adjust: 0.5;
+  line-height: 130%;
+  margin: 2.5em auto;
+  max-width: 724px;
+}
+
+.title, .filename, h1, h2, h3, h4 {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size-adjust: 0.5;
+  font-weight: 500;
+  color: #333;
+  line-height: 100%;
+  margin: 0.8em 0 0.3em;
+}
+.title { font-size: 36px; }
+h1 { font-size: 30px; }
+h2 { font-size: 24px; }
+h3, h4 { font-size: 18px; }
+h1 a[href], h2 a[href], h3 a[href], h4 a[href] {
+  color: #333;
+}
+
+ul.toc li {
+  list-style: none;
+  text-indent: -2.5em;
+  padding-left: 2.5em;
+  padding-bottom: 5px;
+  margin: 0;
+}
+ul.toc, ul.toc ul {
+  margin: 0 0 0 1.5em;
+}
+
+table {
+  margin-left: 0em;
+  border-collapse: collapse;
+}
+th {
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+}
+td {
+  border-top: 1px solid #ddd;
+  vertical-align: top;
+}
+tr:nth-child(2n+1) > td,
+tr:nth-child(2n+1) > th {
+  background-color: #f9f9f9;
+}
+td.reference {
+  max-width: 200px;
+  border-top: none;
+  padding-right: 1em;
+}
+.right {
+  text-align: right;
+}
+
+
+table.header {
+  width: 100%;
+}
+table.header td {
+  border: none;
+  background-color: transparent;
+  color: black;
+}
+.filename {
+  color: rgb(119, 119, 119);
+  font-size: 23px;
+  font-weight: normal;
+  height: auto;
+  line-height: 100%;
+}
+#rfc\.abstract+p {
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 130%;
+}
+
+samp, tt, code, pre {
+  font: 11pt consolas, monospace;
+  font-size-adjust: none;
+}
+pre {
+  background-color: #eee;
+  border: 1px solid #ddd;
+  overflow-x: auto;
+  padding: 5px;
+  margin: 5px;
+}
+.figure {
+  font-style: italic;
+  margin: 0 1.5em;
+}
+
+address {
+  margin: 10px 0 0;
+}
+.vcard {
+  font-style: normal;
+}
+.vcardline {
+  display: block;
+}
+.vcardline .fn {
+  font-weight: bold;
+}
+.vcardline .hidden {
+  display: none;
+}
+
+dl {
+  margin-left: 1em;
+}
+dl.dl-horizontal: {
+  margin-left: 0;
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.nohang > dt {
+  float: none;
+}
+dl > dd {
+  margin-bottom: .5em;
+}
+dl.compact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+ul.empty {
+  list-style-type: none;
+}
+ul.empty li {
+  margin-top: .5em;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+a {
+  text-decoration: none;
+}
+a[href] {
+  color: #2a6496;
+}
+a[href]:hover {
+  background-color: #eee;
+}
+
+ol, ul, li, p {
+  padding: 0;
+  margin: 0.5em 0 0.5em 2em;
+}
+li, p {
+  margin-left: 0;
+}
+
+.github-fork-ribbon-wrapper {
+  display: none;
+}
+@media screen and (min-width: 800px) {
+  /* "Fork me on GitHub" CSS ribbon based on
+   * https://github.com/simonwhitaker/github-fork-ribbon-css
+   */
+  .github-fork-ribbon {
+    position: absolute;
+    padding: 2px 0;
+    background-color: #a00;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
+    font: 700 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    pointer-events: auto;
+
+    top: 38px;
+    right: -45px;
+
+    transform: rotate(45deg);
+  }
+
+  .github-fork-ribbon a[href],
+  .github-fork-ribbon a[href]:hover {
+    color: #fff;
+    background-color: transparent;
+    text-decoration: none;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
+    text-align: center;
+
+    width: 190px;
+    line-height: 18px;
+
+    display: inline-block;
+    padding: 2px 0;
+
+    border: 1.5px dotted #fff;
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .github-fork-ribbon-wrapper {
+    display: block;
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    overflow: hidden;
+    top: 0; right: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .github-fork-ribbon-wrapper {
+    position: fixed;
+  }
+  /*]]>*/</style>
+
+  <link href="#rfc.toc" rel="Contents"/>
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction"/>
+<link href="#rfc.section.2" rel="Chapter" title="2 SACM Components"/>
+<link href="#rfc.section.2.1" rel="Chapter" title="2.1 Combining Roles"/>
+<link href="#rfc.section.2.2" rel="Chapter" title="2.2 SACM Collection"/>
+<link href="#rfc.section.2.2.1" rel="Chapter" title="2.2.1 Use of Existing Management Protocols"/>
+<link href="#rfc.section.2.2.2" rel="Chapter" title="2.2.2 The Need for Collection Choreography"/>
+<link href="#rfc.section.2.2.3" rel="Chapter" title="2.2.3 Collected Information Dissemination"/>
+<link href="#rfc.section.3" rel="Chapter" title="3 SACM Protocols"/>
+<link href="#rfc.section.4" rel="Chapter" title="4 Information Model"/>
+<link href="#rfc.section.5" rel="Chapter" title="5 Data Model"/>
+<link href="#rfc.section.6" rel="Chapter" title="6 IANA Considerations"/>
+<link href="#rfc.section.7" rel="Chapter" title="7 Security Considerations"/>
+<link href="#rfc.references" rel="Chapter" title="8 Informational References"/>
+<link href="#rfc.acknowledgments" rel="Chapter"/>
+<link href="#rfc.authors" rel="Chapter"/>
+
+
+  <meta name="generator" content="xml2rfc version 2.5.2 - http://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Schaad, J. and D. Waltermire" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-schaad-sacm-architecture-latest" />
+  <meta name="dct.issued" scheme="ISO8601" content="2016-11-1" />
+  <meta name="dct.abstract" content="This document describes the high level architecture for Security Automation and Continuous Monitoring (SACM).  The architecture identifies the components that provide for the collection, storage, dissemination, and evaluation of posture information.  This architecture also describes the interfaces and associated operations that define the interactions between these components.  This information will inform future engineering work around identifying existing standards for collecting, storing, disseminating, and evaluating endpoint posture information.  This architecture will also help in identifying standardization gaps that require new engineering effort.  " />
+  <meta name="description" content="This document describes the high level architecture for Security Automation and Continuous Monitoring (SACM).  The architecture identifies the components that provide for the collection, storage, dissemination, and evaluation of posture information.  This architecture also describes the interfaces and associated operations that define the interactions between these components.  This information will inform future engineering work around identifying existing standards for collecting, storing, disseminating, and evaluating endpoint posture information.  This architecture will also help in identifying standardization gaps that require new engineering effort.  " />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+  <td class="left">SACM</td>
+  <td class="right">J. Schaad</td>
+</tr>
+<tr>
+  <td class="left">Internet-Draft</td>
+  <td class="right">August Cellars</td>
+</tr>
+<tr>
+  <td class="left">Intended status: Informational</td>
+  <td class="right">D. Waltermire</td>
+</tr>
+<tr>
+  <td class="left">Expires: May 5, 2017</td>
+  <td class="right">National Institute of Standards and Technology</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">November 1, 2016</td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">Prospective Architecture for SACM<br />
+  <span class="filename">draft-schaad-sacm-architecture-latest</span></p>
+  
+  <h1 id="rfc.abstract">
+  <a href="#rfc.abstract">Abstract</a>
+</h1>
+<p>This document describes the high level architecture for Security Automation and Continuous Monitoring (SACM).  The architecture identifies the components that provide for the collection, storage, dissemination, and evaluation of posture information.  This architecture also describes the interfaces and associated operations that define the interactions between these components.  This information will inform future engineering work around identifying existing standards for collecting, storing, disseminating, and evaluating endpoint posture information.  This architecture will also help in identifying standardization gaps that require new engineering effort.  </p>
+<p>Security practitioners need to request, analyze, and aggregate posture information from disparate sources that use differing means to identify endpoints, hardware, software, and configurations.  This task is made harder by the large number of different protocols and formats needed to bring together all of this information into a single view.  This architecture provides a means to automatically gather posture data together for standardized dissemination to downstream components.  This allows security practitioners that leverage this architecture to focus on managing security problems, not data.  </p>
+<h1 id="rfc.status">
+  <a href="#rfc.status">Status of This Memo</a>
+</h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on May 5, 2017.</p>
+<h1 id="rfc.copyrightnotice">
+  <a href="#rfc.copyrightnotice">Copyright Notice</a>
+</h1>
+<p>Copyright (c) 2016 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (http://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a></li>
+<li>2.   <a href="#rfc.section.2">SACM Components</a></li>
+<ul><li>2.1.   <a href="#rfc.section.2.1">Combining Roles</a></li>
+<li>2.2.   <a href="#rfc.section.2.2">SACM Collection</a></li>
+<ul><li>2.2.1.   <a href="#rfc.section.2.2.1">Use of Existing Management Protocols</a></li>
+<li>2.2.2.   <a href="#rfc.section.2.2.2">The Need for Collection Choreography</a></li>
+<li>2.2.3.   <a href="#rfc.section.2.2.3">Collected Information Dissemination</a></li>
+</ul></ul><li>3.   <a href="#rfc.section.3">SACM Protocols</a></li>
+<li>4.   <a href="#rfc.section.4">Information Model</a></li>
+<li>5.   <a href="#rfc.section.5">Data Model</a></li>
+<li>6.   <a href="#rfc.section.6">IANA Considerations</a></li>
+<li>7.   <a href="#rfc.section.7">Security Considerations</a></li>
+<li>8.   <a href="#rfc.references">Informational References</a></li>
+<li><a href="#rfc.acknowledgments">Acknowledgments</a></li>
+<li><a href="#rfc.authors">Authors' Addresses</a></li>
+
+
+  </ul>
+
+  <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> Introduction</h1>
+<p id="rfc.section.1.p.1">This document represents some views of the authors but should not be considered to be the opinions of them either individually or collectively.  The document is designed both to clarify the thinking of the authors as well as to create some discussion on what the architecture looks like.  As such, it is entirely reasonable that section of the document (i.e. the one on the IM) should be combined, removed or replaced.  This can be either because they do not belong in this document or because they are just wrong.  </p>
+<p id="rfc.section.1.p.2">Another aim of the document is to clarify what pieces of the work may need to be done in the future as this may help clarify some of the dicussions are underway or have been completed.  This is the aim of the list of protocols associated with a component.  With this, we can perhaps start looking at what DM(s) are doing when they are sending data.  </p>
+<p id="rfc.section.1.p.3">Jim: Part of the questions that would need to be addressed before publication is the audience of the document.  It is my personal feeling that the document should be sufficently complete that it can be handed to a person who is not in the community, and they should be able to understand all of the pieces and how they interact.  </p>
+<p id="rfc.section.1.p.4">To manage information system security risk, network operators must know the operational state of the endpoints they manage, and must be able to assess known vulnerabilities against this operational state to understand potential security risks.  This helps the network operator to determine which threats a given endpoint might be subject to, and supports decision making around actions that mitigate the associated risk. Vulnerability assessment is an example of this type of analysis, where endpoint software inventory is compared with known vulnerable software versions reported by software vendors and vulnerability researchers to determine which endpoints have vulnerable software. Knowledge of vulnerable software on endpoints can then drive software patching activities, reducing the attack surface of the network. Additionally, many organizations develop compliance requirements based on their understanding of security risks. These compliance requirements, also called policies, define what software may be installed on a given endpoint and how that software must be configured to achieve a sufficient level of security risk reduction for the organization. In both cases, an organization needs to have an up-to-date view of the operational state of the endpoints connected to their networks and accessing their information systems.</p>
+<p id="rfc.section.1.p.5">Understanding the operational state of an endpoint (hereafter referred to as "endpoint posture") requires the ability to collect and evaluate endpoint posture information as posture changes occur. In order to make decisions quickly to prevent, deflect, or mitigate an attack, network operators must be able to collect, disseminate, and evaluate posture information within narrow timeframes. Making decisions quickly relies on automating posture collection and evaluation processes so that network operators can identify endpoints, software, and software configurations in a meaningful and enduring way that is suitable for trending and longer-term analysis. This document describes a suitable architecture that supports automated collection, storage, dissemination, and evaluation of endpoint posture information.</p>
+<p id="rfc.section.1.p.6">Still needs text dealing with other uses.  </p>
+<p id="rfc.section.1.p.7">There is an IM and a DM.  Some differences between these are found in <a href="#RFC3444">[RFC3444]</a>.  </p>
+<h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> SACM Components</h1>
+<p id="rfc.section.2.p.1">The SACM architecture is made up of a number of different entities each of which supports one or more roles.  A picture of what roles can exist can be found in <a href="#ArchDrawing">Figure 1</a>.  </p>
+<div id="rfc.figure.1"/>
+<div id="ArchDrawing"/>
+<pre>
+----!----1----!----2----!----3----!----4----!----5----!----6----!-
+
++-----------+  +---------------+  +------------+  +-------+
+| Raw       |  |               |  |            |  |       |
+| Data      |  | Authenticator |  | Authorizor |  | Data  | 
+| Collector |  |               |  |            |  | Store |
++-----------+  +---------------+  +------------+  +-------+
+      |                 |               |        /
++-----------+                                     +-----------+
+|    SACM   |-        /------\                   -| Directory |
+| Collector |        /  SACM  \                   +-----------+
++-----------+       /          \
+                    |          |                  +-------------+
++--------+          \   CLOUD  /                 -| Aggregators |
+|  SACM  |-----      \        /                   +-------------+
+|  Proxy |            \------/
++--------+                                        +------------+
+     |                |                |          | Evaluators |
+/-----------\   +------------+    +-----------+   +------------+
+|  External |   | Policy     |    | External  |
+|  SACM     |   | Management |    | Event     |
+|  Cloud    |   +------------+    | Processor |
+\-----------/                     +-----------+
+        </pre>
+<p class="figure">Figure 1: SACM Architecture</p>
+<p id="rfc.section.2.p.2">A description of the different roles in the picture above is as follows: </p>
+
+<dl>
+  <dt>Authenticator:</dt>
+  <dd style="margin-left: 8">is a role that provides authentication services for other entities within the architecture.  Entities can interact with an authenticator once and be provided with a long term credential, such as a certificate, or can be interacted with whenever authentiction is needed, such as an EAP server.  Even when interacting on a frequent basis, a short term credential such as a SAML assertion can be provided.  Interactions with an authenticator include: <ul><li>Enrollment: The act of being introduced to the authentication system.</li><li>Revocation: The act of being removed from the authentication system.</li><li>Authentication: The act of proving an identity to the authentication system matches one that was introduced to it.</li></ul><p> </p></dd>
+  <dt>Authorizer:</dt>
+  <dd style="margin-left: 8">is a role that provides authorization and access control to data and capabilities for an entity within the architecture.  Frequently, but not always authorizers and authenticators will be co-located and administered.  Interactions with an authorizer include: <ul><li>Authorization: An administrative act of adding authorizations for an identity.</li><li>Revocation: An administrative act of removing authorizations for an identity.</li><li>Querying: The act of asking if an identity is authorized for performing an action or receiving data.</li></ul><p> </p></dd>
+  <dt>Directory:</dt>
+  <dd style="margin-left: 8">is a role that provides methods to locate where services and data can be found in the architecture.  Interactions with a directory include: <ul><li>Publishing: The act of telling a directory what services or data can an entity provides.</li><li>Unpublishing: The act of removing from a directory a list of services or data that an entity provides.</li><li>Querying: The act of asking a directory where a service or set of data can be found.</li><li>Directory Location: The act of finding a directory in the first place.</li></ul><p> </p></dd>
+  <dt>Data Store:</dt>
+  <dd style="margin-left: 8">is a role that provides a repository for data to be published into and queried from.  Interactions with a data store include: <ul><li>Publishing: The act of providing data to a data store.</li><li>Querying: The act of obtaining data from a data store.</li><li>Synchronization: The act of two data stores making the data they hold consistent.</li></ul><p> </p></dd>
+  <dt>SACM Collector:</dt>
+  <dd style="margin-left: 8">is a role that obtains data and then publishes it into the SACM environment.  A SACM collect will either publish the data to a data store, or act as a data store itself.  SACM collectors can location and publish data either in response to a query, if they act as a data store, on a schedule, or in response to some event.  A SACM collector will format data provided to it into the SACM Information model, decorating it as necessary, and then provide it to the rest of the environment.  </dd>
+  <dt>Raw Data Collector:</dt>
+  <dd style="margin-left: 8">is a role that is ancillary to the SACM architecture rather than being a core component.  Raw data collectors gather data which is fed to a SACM collector.  Examples of raw data collectors could be NEA components, asset management databases (hardware, software or wetware), or network state databases such as a DHCP server.  </dd>
+  <dt>Aggregator:</dt>
+  <dd style="margin-left: 8">is a role that looks at data in the SACM environment, combines together pieces of related data and publishes the new relationships back into the environment.  An example of what an aggregator might do is to look at the information provided by a DHCP server along with historic IP address information for a machine to determine when records referring to a machine are the same one or different ones.  </dd>
+  <dt>Evaluator:</dt>
+  <dd style="margin-left: 8">is a role that looks a the data in the SACM environment along with a set of evaluation criteria, compares the data with the criteria and publishes the results of the evaluation back into the environment.  Evaluators can look at things as simple as are all of the pieces of software on a machine licensed to as complicated as comparing data for a network or machine against an intrusion report.  </dd>
+  <dt>SACM Proxy:</dt>
+  <dd style="margin-left: 8">is a role that allows for data to be transfered between two different SACM environments.  SACM proxies frequently provide the data store role as well so that they can know what data needs to be synchronized between the two subsystems.  SACM proxies can exist in environments where they are always active, or where only intermittent connectivity exists between the two subsystems.  </dd>
+  <dt>Policy Management:</dt>
+  <dd style="margin-left: 8">is a role that controls different policy configurations for the environment.  This includes such things as: What to report and who to report it to.  Conditions under which automated remediation should automatically be applied.  What the priorities are used in performing evaluations and frequencies of evaluations.  </dd>
+  <dt>External Event:</dt>
+  <dd style="margin-left: 8">is a role that acts between the SACM environment and external non-SACM systems.  One type of interaction that would be covered here is dealing with external vulnerability reports.  As reports come from external sources, they need to be messaged into the correct format for storage in the SACM IM and then supplied to evaluators to identify if the vulnerability exists in systems SACM monitors.  The same thing can happen in reverse, where vulnerabilities  or conditions that look like they might be vulnerabilities could be reported to an external centeralized authority.  </dd>
+</dl>
+
+<p> </p>
+<p id="rfc.section.2.p.3">In many cases it is not always clear where a single service falls.  A simple example of this is where the NEA protocol would fit into the picture.  NEA can be treated either as an internal collector or as an external collector depending on what is being collected and how the observer feels about the world.  Many of the core things that NEA collects today are not directly mapped to the SACM Information Model without some massaging, as such it is reasonable to look at this as being an external collector with the NEA server being co-resident with the SACM External Collector.  This entity would take the NEA data, convert it into the SACM IM, and then publish it using one of the SACM DMs.  On the other hand, it is also possible that NEA would collect data that corresponds directly to a SACM IM and return the data already encoded in a SACM DM.  In this case, it would make sense to consider the NEA client as being a SACM Internal collector which publishes using NEA as the publishing protocol and the ENA server being either a proxy or a data store.  </p>
+<h1 id="rfc.section.2.1"><a href="#rfc.section.2.1">2.1.</a> Combining Roles</h1>
+<p id="rfc.section.2.1.p.1">In many cases more than one role will be combined into a single entity.  In this section a view of how roles might be combined together to provide support as a proxy for the Ice Station Zebra use case in <a href="#RFC7632">[RFC7632]</a>.  In this scenario, the enterprise has two different SACM sub-systems.  One sub-system is at the main enterprise and the other sub-system is at Zebra.  There is not a constant high-speed connection between the two sub-systems, instead data is exchanged an intermittent, low-speed, high-latency link.  </p>
+<p id="rfc.section.2.1.p.2">The proxy role is the one that sits between the two subsystems, that is what it is designed for.  Due to the link, one would have two different proxies one on either side of the link.  The entity that contains the proxy may additionally have the following roles: </p>
+
+<ul>
+  <li>Data Store: Placing a data store on the proxy allows for queries about devices on the other size to be queued up and synchronized across the connection.  Additionally, having a data store for those items on the opposite side of the link allows that data store to specialize on how to optimally synchronize data across the link.  </li>
+  <li>Directory Service: Placing a directory service that tells about the systems and services on opposite side of the connection allows for the ability to filter down the set of registrations that are passed over the link.  </li>
+  <li>Authorization Service: The authorizations may be changed for some entities based on the location of the service they are asking about.  A user may have basically unlimited authorization for the local subsystem, but may have limited authorization for the remove subsystem.  This rule would apply whether they were at the home base or at Zebra.  </li>
+</ul>
+
+<p> </p>
+<h1 id="rfc.section.2.2"><a href="#rfc.section.2.2">2.2.</a> SACM Collection</h1>
+<p id="rfc.section.2.2.p.1">The collection of data in the SACM world is one of the major issues that needs to be dealt with.  For this reason we drill down into that problem here.  </p>
+<p id="rfc.section.2.2.p.2">When dealing with just the issue of collcition, the SACM architecture can be thought of as having a left-hand side and a right-hand side, illustrated by the dotted line in <a href="#CollectionSvg">Figure 2</a>.  The left-hand side describes how management protocols can be used to allow a Collection Controller (CC) <a id="CREF1" class="info">[CREF1]<span class="info">JLS: This is equavalent to a SACM External Collector.  Does that mean we should rename one or other?</span></a> to choreograph the collection of endpoint posture from a set of target endpoints through posture change subscriptions or direct requests, and for endpoints to report posture information based on these collection requests.  The left-hand side of the architecture is built upon existing endpoint management protocols; however, new protocols are needed to separate out the evaluation and collection capabilities defined by some of these protocols (e.g., NEA).  </p>
+<div id="rfc.figure.2"/>
+<div id="CollectionSvg"/>
+<pre>                            |
+  +----------+              |
+  |          |              |                                +-----------+       
+  | Target   +---------+    |    +---------------------------&gt;           |
+  | Endpoint |         |    |    |                           | Datastore |       
+  |          |         |    |    |              +------------&gt;           |       
+  +----------+        +v---------v-+            |            |           |       
+                      |            |    {-------v---}        +-----^-----+       
+  +----------+        |            |   {             }             |       
+  |          |        | Collection |  { Messaging     }            |       
+  | Target   &lt;--------&gt; Controller &lt;--&gt; Protocol +--------+        |
+  | Endpoint |        |            |  {          |        |        |       
+  |          |        |            |   {         | Broker |        |       
+  +----------+        |            |    {--^-----+        |        |       
+                      +^---------^-+       |     +--------+        |       
+  +----------+         |    |    |         |                 +-----v-----+       
+  |          |         |    |    |         +-----------------&gt;           |       
+  | Target   &lt;---------+    |    |                           | Evaluator |       
+  | Endpoint |              |    +---------------------------&gt;           |
+  |          |              |                                |           |       
+  +----------+              |                                +-----------+
+                            |
+            [-----------]   |
+              Management    |
+               Protocol     |
+              Interfaces    |
+                            |
+         Left-Hand Side     |               Right-Hand Side
+          </pre>
+<p class="figure">Figure 2: SACM Architecture</p>
+<p id="rfc.section.2.2.p.3">At the center of the SACM architecture is a CC that spans the left- and right-hand sides. The CC choreographs the collection of posture information on the left-hand side, and provides a common view of the collected posture for the right-hand side.  Working in this way, all Evaluators that consume posture information from a given CC are provided a common view of all endpoint posture information collected by the CC. This common view can be accessed by Evaluators who need this information for asset management, configuration management, and vulnerability management use cases, and collected posture information can also be made available to other posture consumers to support unforeseen use cases.  </p>
+<p id="rfc.section.2.2.p.4">The right-hand side of the SACM architecture defines how posture information is shared between components that provide collected posture (e.g., a Collection Controller) and components that store, evaluate, and use collected posture information on the network. Analytical and reporting capabilities need to be able to publish and subscribe to posture data feeds from other tools that have the required information. Other capabilities may need to access data stores of previously collected, historic posture information. By separating the methods of posture collection from how this information is consumed for use, the SACM architecture protects endpoints from being overloaded by downstream requests, and posture data from unauthorized access.  These benefits support security automation by providing improved access to posture information by downstream consumers, and allowing downstream components to communicate information derived from posture analysis.  </p>
+<p id="rfc.section.2.2.p.5">The following subsection discuss the motivations for the SACM architecture.  </p>
+<h1 id="rfc.section.2.2.1"><a href="#rfc.section.2.2.1">2.2.1.</a> Use of Existing Management Protocols</h1>
+<p id="rfc.section.2.2.1.p.1">On the left-hand side of the SACM architecture, a number of existing, widely deployed endpoint management protocols support the collection of posture information from endpoints.  Examples of these protocols include: the Simple Network Management Protocol (SNMP) <a href="#RFC3411">[RFC3411]</a>, Network Configuration Protocol (NETCONF) <a href="#RFC4741">[RFC4741]</a>, and the Network Endpoint Assessment (NEA) protocol <a href="#RFC5209">[RFC5209]</a>. These and similar protocols provide extension points that allow for new types of posture information to be represented and collected over time. For these reasons, integration with existing posture collection protocols is a key feature of this architecture.  </p>
+<p id="rfc.section.2.2.1.p.2">A gap in the functionality provided by existing protocols is a generalized mechanism to allow external components to drive data collection activities through a common, protocol agnostic collection interface. This is a feature supported by the SACM architecture through the definition of a common interface on the right-hand side that allows the CC to choreograph posture collection through implementations of existing management protocols on the left-hand side.  </p>
+<h1 id="rfc.section.2.2.2"><a href="#rfc.section.2.2.2">2.2.2.</a> The Need for Collection Choreography</h1>
+<p id="rfc.section.2.2.2.p.1">Collection choreography is the act of managing posture collection activities on the left-hand side to produce a common view of collected posture information for one or more collection consumers on the right-hand side. Collection choreography is supported in the SACM architecture by the Collection Controller (CC) for the following reasons: </p>
+
+<dl>
+  <dt>Simplification of Collection Clients</dt>
+  <dd style="margin-left: 6">Multiple management protocols are needed to fullfil posture information collection requests across different types of endpoints. To provide coverage of all posture information that may need to be collected, any component driving posture collection must be well versed in multiple protocols and associated data models. Developing and maintaining this level of protocol support is a heavy burden to place on Evaluators. Additionally, some management solutions make use of specialized collection managers or proxies (e.g., mobile device management) that directly communicate with the target endpoint(s) on behalf of requesting clients. Requiring evaluators to locate and communicate with these proxies would discourage development and adoption of SACM solutions. The SACM architecture reduces the implementation burden on Evaluators by making the CC manage which collection services a request should be sent to when satisfying a given SACM collection request. This allows Evaluators to focus only on identifying and processing the data they request, and not on managing the collection process.  </dd>
+  <dt>Authenticating, Authorizing, and Controlling Access of Data Collection Consumers</dt>
+  <dd style="margin-left: 6">An automated collection system can pose a significant risk to an organization if the system can be misused by an attacker to gain knowledge of the operational state of endpoints. Once accessed by an attacker, this information can be used to attack other hosts or move laterally within a network. For this reason, access to collected endpoint posture information must be restricted to authenticated and authorized entities. Different management protocols may employ different authentication and authorization schemes. Through the use of a shared CC, access can be controlled in a way that unifies the underlying authentication, authorization, and access control schemes.  </dd>
+  <dt>Reducing Performance Impacts on the Target Endpoint</dt>
+  <dd style="margin-left: 6">Without a common CC, Evaluators would need to directly interact with an endpoint to request posture data.  Multiple clients operating in this way might request the same posture data within a narrow time window, resulting in multiple collection operations that can reduce the operational performance of the endpoint. Use of a CC can allow these repetitive and duplicative collection operations to be optimized. Working in this way, the CC can compute an optimal collection approach, using the appropriate management protocols to efficiently collect any needed posture data. This data can be cached by the CC, operating as a Data Store, and can be reused within an appropriate time window to provide multiple clients with the same collected posture information.  </dd>
+</dl>
+
+<p> </p>
+<p id="rfc.section.2.2.2.p.2">For these reasons a Collection Controller is needed to choreograph posture collection within the SACM architecture.  </p>
+<h1 id="rfc.section.2.2.3"><a href="#rfc.section.2.2.3">2.2.3.</a> Collected Information Dissemination</h1>
+<p id="rfc.section.2.2.3.p.1">On the right-hand side of the SACM architecture, once collection has been triggered and choreographed, there remains the issue of efficiently disseminating the collected posture information to consumers. The collection activity will have yielded information in an arbitrary data format, often spread across several formats with overlapping and mismatched information. There is a need for a means to package this information in a standardized way such that automated systems downstream can consume it without a priori knowledge of the source format.</p>
+<p id="rfc.section.2.2.3.p.2">The SACM architecture needs to support direct request response and publish subscribe mechanisms for posture data dissemination. In either case, arbitrary data formats can be processed at collection time and re-enveloped by a standardized information description. The downstream consumer needs to only understand the enveloping model to process the message containing posture information. It might also be possible to allow the enveloping model to identify multiple formats, allowing the consumer to request information from the designated source in a specific format it recognizes and supports.</p>
+<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> SACM Protocols</h1>
+<p id="rfc.section.3.p.1">List of protocols: </p>
+
+<dl>
+  <dt>Authentication:</dt>
+  <dd style="margin-left: 8">A method of doing an entity to authenticate itself is required.  Several potential candidates exist for this purpose.  Among these candidates are X.509 certificates, SAML assertions, EAP or GSS-API.  </dd>
+  <dt>Authorization:</dt>
+  <dd style="margin-left: 8">A standardized method of either querying the authorization server or carrying authorization information needs to be selected.  Some of the candidates for this would be SAML assertions or X.509 attribute certificates.  </dd>
+  <dt>Query:</dt>
+  <dd style="margin-left: 8">There will exist a standardized method for querying data from a repository.  The query protocal needs to do the following things: <dl><dt></dt><dd style="margin-left: 8">Get the required authentication for the quester.  The server needs to authenticate both that the requester has the needed rights both to make the query and to have access to the data involved.  </dd><dt></dt><dd style="margin-left: 8">The entities need to negotiate a data model to be used for the creation of the query and to express the query in.  </dd><dt></dt><dd style="margin-left: 8">The entities need to negotiate a data model, a serialization abstraction and a serialization data format for data to be returned in response to a query.  </dd><dt></dt><dd style="margin-left: 8">The ability to specify required meta-data as part of the query is a requirement.  As an example, the ability to require that the data be collected after a given date and time is required.  </dd><dt></dt><dd style="margin-left: 8">The ability to negotiate the frequency that the data is to be returned to the client.  Data may be required as a one time event or as an ongoing event.  One time events may be returned either immediately, or when the query can be completed as the data becomes available.  Ongoing responses can be based on a time interval or based on some event happening.  For ongoing response, the criteria for specify the frequency of response needs to be both negotiated and authorized.  </dd></dl><p> </p></dd>
+  <dt>Response:</dt>
+  <dd style="margin-left: 8">There will exist a standardized method for sending data from a server to a client.  Data may be sent to a client based either on a request for data, a prior request for data or because the server decided the client needs the data.  Servers need to do the authentication and authorization on the data to be returned at a regular basis.  </dd>
+  <dt>Directory Register:</dt>
+  <dd style="margin-left: 8">There will exist a standardized method for registering and unregistering data in a directory service.  </dd>
+  <dt>Directory Query:</dt>
+  <dd style="margin-left: 8">There will exist a standardized method for querying the directory service for supported services.  </dd>
+  <dt>Publish:</dt>
+  <dd style="margin-left: 8">There will exist a standardized method for publishing data into a repository.  The method will: <ul><li>Verify the identity and authorization of the publisher.  </li><li>If needed, negotiate the format in which the data is presented.  This includes the data model, data abstraction and data serialization.  </li><li>Verify that the required meta-data that the publisher must provide is present.  </li><li>Provide repository based meta-data.  </li></ul><p> Additionally, the repository will potentially trigger events within the server for dealing with outstanding requests for data or evaluations.  </p></dd>
+  <dt>Synchronization:</dt>
+  <dd style="margin-left: 8">There will exist a standardized method for doing synchronization between multiple data stores.  This method will: <ul><li>TBD.  </li></ul><p> </p></dd>
+  <dt>Collection:</dt>
+  <dd style="margin-left: 8">Many different protocols can be used to do collection over.  One of these is NEA <a href="#RFC5209">[RFC5209]</a> which acts as a transport for serializations of SACM data models.  The use of NEA as the transport satisifes the following requirements: <ul><li>NEA requires the use of TLS [TLS??] for cryptographic protection between the client and the server.  </li><li>NEA has defined two authentication protocols to run between the client and the server.  These are PT-TLS <a href="#RFC6876">[RFC6876]</a> and PT-EAP <a href="#RFC7171">[RFC7171]</a>.  PT-TLS uses X.509 certificates on both the client and server side to authenticate each side.  PT-EAP allows for EAP <a href="#RFC3748">[RFC3748]</a> to be used which allows for lighter weight registration and authentication to occur.  </li><li>Authorization is currently of the all or none variety.  Authorization is done at configuration time.  </li><li>Discovery is not currently supported by NEA, so the server location is configured onto the client.  </li></ul><p> </p><a href="#I-D.coffin-sacm-nea-swid-patnc">[I-D.coffin-sacm-nea-swid-patnc]</a> represents one set of attributes to carry SACM information.  </dd>
+</dl>
+
+<p> </p>
+<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> Information Model</h1>
+<p id="rfc.section.4.p.1">The SACM architecture includes a single Information Model to provide a consistent view of the data needed to do perform the endpoint posture assessment.  Additional IMs may be defined by entities other than the IETF which are supersets of the IETF IM.  This is one way that companies will be able to differentiate their products from each other.  The IM includes not only the data itself, but metadata as well.  The meta data includes, but is not limited to: </p>
+
+<ul>
+  <li>Who collected or created the data</li>
+  <li>When the data was collected or created</li>
+  <li>What data was used to create the data</li>
+  <li>What relationships exist between different data points or different versions of the same data point.</li>
+</ul>
+
+<p> </p>
+<h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> Data Model</h1>
+<p id="rfc.section.5.p.1">The SACM architecture includes a single Data Model defined by the IETF.  Additional DMs maybe defined by entities other than the IETF.  These additional DMs may be either subsets or supersets of the IETF SACM DM.  The subset DMs are defined for doing special purpose work which does not need the full SACM DM.  </p>
+<p id="rfc.section.5.p.2">The term DM is used by the SACM group in two different contexts and it is useful to discuss those two contexts.  Data Model can refer to how the data is arranged within a entity.  In this view of a DM, one can use a relational database as the conceptual view of the world.  The relations in the database reflect the relations between the data in the IM.  The use of a relational database is not the only way to implement the DM within a process.  </p>
+<p id="rfc.section.5.p.3">The term DM can also refer to how the data is represented when serialized for transport between two entities.  This is the meaning that is more usual when looking at the current SACM documents.  This is sometimes referred to as the DM in transit.  </p>
+<h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> IANA Considerations</h1>
+<p id="rfc.section.6.p.1">This document has no IANA Considerations.</p>
+<h1 id="rfc.section.7"><a href="#rfc.section.7">7.</a> Security Considerations</h1>
+<p id="rfc.section.7.p.1">This document is a high level description of the architecture of the SACM environment, as such it does not directly specify any security problems or requirements.  Security requirements for SACM can be found in other documents including the <a href="#I-D.ietf-sacm-requirements">SACM Requirements</a> <cite title="NONE">[I-D.ietf-sacm-requirements]</cite>.  </p>
+<h1 id="rfc.references"><a href="#rfc.references">8.</a> Informational References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="I-D.ietf-sacm-requirements">[I-D.ietf-sacm-requirements]</b>
+      </td>
+      <td class="top"><a>Cam-Winget, N.</a> and <a>L. Lorenzin</a>, "<a href="http://tools.ietf.org/html/draft-ietf-sacm-requirements-14">Security Automation and Continuous Monitoring (SACM) Requirements</a>", Internet-Draft draft-ietf-sacm-requirements-14, September 2016.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC3444">[RFC3444]</b>
+      </td>
+      <td class="top"><a>Pras, A.</a> and <a>J. Schoenwaelder</a>, "<a href="http://tools.ietf.org/html/rfc3444">On the Difference between Information Models and Data Models</a>", RFC 3444, DOI 10.17487/RFC3444, January 2003.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC7632">[RFC7632]</b>
+      </td>
+      <td class="top"><a>Waltermire, D.</a> and <a>D. Harrington</a>, "<a href="http://tools.ietf.org/html/rfc7632">Endpoint Security Posture Assessment: Enterprise Use Cases</a>", RFC 7632, DOI 10.17487/RFC7632, September 2015.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC5209">[RFC5209]</b>
+      </td>
+      <td class="top"><a>Sangster, P.</a>, <a>Khosravi, H.</a>, <a>Mani, M.</a>, <a>Narayan, K.</a> and <a>J. Tardo</a>, "<a href="http://tools.ietf.org/html/rfc5209">Network Endpoint Assessment (NEA): Overview and Requirements</a>", RFC 5209, DOI 10.17487/RFC5209, June 2008.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC6876">[RFC6876]</b>
+      </td>
+      <td class="top"><a>Sangster, P.</a>, <a>Cam-Winget, N.</a> and <a>J. Salowey</a>, "<a href="http://tools.ietf.org/html/rfc6876">A Posture Transport Protocol over TLS (PT-TLS)</a>", RFC 6876, DOI 10.17487/RFC6876, February 2013.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC7171">[RFC7171]</b>
+      </td>
+      <td class="top"><a>Cam-Winget, N.</a> and <a>P. Sangster</a>, "<a href="http://tools.ietf.org/html/rfc7171">PT-EAP: Posture Transport (PT) Protocol for Extensible Authentication Protocol (EAP) Tunnel Methods</a>", RFC 7171, DOI 10.17487/RFC7171, May 2014.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC3748">[RFC3748]</b>
+      </td>
+      <td class="top"><a>Aboba, B.</a>, <a>Blunk, L.</a>, <a>Vollbrecht, J.</a>, <a>Carlson, J.</a> and <a>H. Levkowetz</a>, "<a href="http://tools.ietf.org/html/rfc3748">Extensible Authentication Protocol (EAP)</a>", RFC 3748, DOI 10.17487/RFC3748, June 2004.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D.coffin-sacm-nea-swid-patnc">[I-D.coffin-sacm-nea-swid-patnc]</b>
+      </td>
+      <td class="top"><a>Coffin, C.</a>, <a>Haynes, D.</a>, <a>Schmidt, C.</a> and <a>J. Fitzgerald-McKay</a>, "<a href="http://tools.ietf.org/html/draft-coffin-sacm-nea-swid-patnc-03">Software Inventory Message and Attributes (SWIMA) for PA-TNC</a>", Internet-Draft draft-coffin-sacm-nea-swid-patnc-03, October 2016.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC3411">[RFC3411]</b>
+      </td>
+      <td class="top"><a>Harrington, D.</a>, <a>Presuhn, R.</a> and <a>B. Wijnen</a>, "<a href="http://tools.ietf.org/html/rfc3411">An Architecture for Describing Simple Network Management Protocol (SNMP) Management Frameworks</a>", STD 62, RFC 3411, DOI 10.17487/RFC3411, December 2002.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC4741">[RFC4741]</b>
+      </td>
+      <td class="top"><a>Enns, R.</a>, "<a href="http://tools.ietf.org/html/rfc4741">NETCONF Configuration Protocol</a>", RFC 4741, DOI 10.17487/RFC4741, December 2006.</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.acknowledgments">
+  <a href="#rfc.acknowledgments">Acknowledgments</a>
+</h1>
+<p id="rfc.section.A.p.1">This document is currently the opinions of just the authors and is not representative of the SACM working group or the IETF.  </p>
+<p id="rfc.section.A.p.2">This document has been formed by discussions with a large number of the SACM working group members including but not limited to: Henk Birkholz, Lisa Lorenzin, Nancy Cam-Winget.  </p>
+<h1 id="rfc.authors">
+  <a href="#rfc.authors">Authors' Addresses</a>
+</h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Jim Schaad</span> 
+	  <span class="n hidden">
+		<span class="family-name">Schaad</span>
+	  </span>
+	</span>
+	<span class="org vcardline">August Cellars</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:ietf@augustcellars.com">ietf@augustcellars.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">David Waltermire</span> 
+	  <span class="n hidden">
+		<span class="family-name">Waltermire</span>
+	  </span>
+	</span>
+	<span class="org vcardline">National Institute of Standards and Technology</span>
+	<span class="adr">
+	  <span class="vcardline">100 Bureau Drive</span>
+
+	  <span class="vcardline">
+		<span class="locality">Gaithersburg</span>,  
+		<span class="region">Maryland</span> 
+		<span class="code">20877</span>
+	  </span>
+	  <span class="country-name vcardline">USA</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:david.waltermire@nist.gov">david.waltermire@nist.gov</a></span>
+
+  </address>
+</div>
+
+  <div class="github-fork-ribbon-wrapper"><div class="github-fork-ribbon"><a href="https://github.com/jimsch/sacm-architecture">Fork me on GitHub</a></div></div>
+</body>
+</html>
