@@ -1,24 +1,4 @@
-# Prospective Architecture for SACM
-
-This is the working area for the Individual internet-draft, "Prospective Architecture for SACM".
-
-* [Editor's copy](https://jimsch.github.io/sacm-architecture/)
-* [Individual Draft] (https://tools.ietf.org/html/draft-schaad-sacm-architecture)
-
-
-## Building the Draft
-
-Formatted text and HTML versions of the draft can be built using `make`.
-
-```sh
-$ make
-```
-
-This requires that you have the necessary software installed.  See [the
-instructions](https://github.com/martinthomson/i-d-template/blob/master/doc/SETUP.md).
-
-
-## Contributing
+# Contributing
 
 Before submitting feedback, please familiarize yourself with our current issues
 list and review the [working group
