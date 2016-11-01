@@ -4,7 +4,7 @@ This is the working area for the Individual internet-draft, "Prospective Archite
 
 * [Editor's copy](https://jimsch.github.io/sacm-architecture/)
 * [Individual Draft] (https://tools.ietf.org/html/draft-schaad-sacm-architecture)
-* [Compare Working Group and Editor's Drafts] (https://tools.ietf.org/rfcdiff?url1=https://www.ietf.org/id/draft-schaad-sacm-architecture&url2=https://jimsch.github.io/sacm-architecture/draft-ietf-sacm-information-model.txt)
+* [Compare Working Group and Editor's Drafts] (https://tools.ietf.org/rfcdiff?url1=https://www.ietf.org/id/draft-schaad-sacm-architecture&url2=https://jimsch.github.io/sacm-architecture/draft-schaad-sacm-architecture.txt)
 
 
 ## Building the Draft
